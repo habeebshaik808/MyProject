@@ -26,10 +26,8 @@ public class HelloServlet extends HttpServlet {
         } catch (IOException e) {
             // Properly handle IOException from getWriter()
             e.printStackTrace(); // Log the exception (consider using a logger in production)
-        } finally {
-            if (out != null) {
-                out.close(); // Ensure the PrintWriter is closed to free resources
-            }
+        }
+          
         }
     }
 
