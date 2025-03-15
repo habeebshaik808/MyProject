@@ -10,24 +10,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class HelloServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
         try (PrintWriter out = response.getWriter()) { // AutoCloseable ensures proper resource handling
             String ip = request.getRemoteAddr();
-            try {
-                InetAddress addr = InetAddress.getByName(ip);
-                out.println("<h1>Client IP: " + ip + "</h1>");
-                out.println("<h2>Resolved Address: " + addr.getHostName() + "</h2>");
-            } 
-            catch (UnknownHostException uhex) {
-                out.println("<h2>Error: Unable to resolve host</h2>");
-            }
-        } 
-        catch (IOException ioex) {
-            log("Error while writing response: " + ioex.getMessage(), ioex);
+            String resolvedAddress = resolveAddress(ip); // Extracted method
+
+            out.println("<h1>Client IP: " + ip + "</h1>");
+            out.println("<h2>Resolved Address: " + resolvedAddress + "</h2>");
+        }
+    }
+
+    // Extracted method to resolve the address
+    private String resolveAddress(String ip) {
+        try {
+            InetAddress addr = InetAddress.getByName(ip);
+            return addr.getHostName();
+        } catch (UnknownHostException e) {
+            return "Unknown Host";
         }
     }
 }
+
 
