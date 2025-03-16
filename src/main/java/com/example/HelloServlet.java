@@ -2,43 +2,37 @@ package com.example;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class HelloServlet extends HttpServlet {
+public class ClientInfoServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        response.setContentType("text/html");
+    private static final Logger LOGGER = Logger.getLogger(ClientInfoServlet.class.getName());
 
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
         PrintWriter out = null;
         try {
             out = response.getWriter(); // May throw IOException
-
             String ip = request.getRemoteAddr();
             String resolvedAddress = resolveAddress(ip); // Extracted method
 
             out.println("<h1>Client IP: " + ip + "</h1>");
             out.println("<h2>Resolved Address: " + resolvedAddress + "</h2>");
-        } catch (IOException e) {
-            // Properly handle IOException from getWriter()
-            e.printStackTrace(); // Log the exception (consider using a logger in production)
-        }
-          
-        }
-    
 
-    // Extracted method to resolve the address
-    private String resolveAddress(String ip) {
-        try {
-            InetAddress addr = InetAddress.getByName(ip);
-            return addr.getHostName();
         } catch (IOException e) {
-            return "Unknown Host";
+            LOGGER.log(Level.SEVERE, "Error obtaining response writer", e);
+        } finally {
+            if (out != null) {
+                out.close(); // Ensure PrintWriter is closed properly
+            }
         }
+    }
+
+    private String resolveAddress(String ip) {
+        // Dummy method, replace with actual logic if needed
+        return "Resolved: " + ip;
     }
 }
 

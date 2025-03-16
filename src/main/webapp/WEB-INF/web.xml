@@ -1,11 +1,11 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          version="3.0">
     <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>com.example.HelloServlet</servlet-class>
+        <servlet-name>ClientInfoServlet</servlet-name>
+        <servlet-class>com.example.ClientInfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
+        <servlet-name>ClientInfoServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>
